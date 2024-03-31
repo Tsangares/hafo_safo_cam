@@ -1,0 +1,50 @@
+<!# DOCTYPE html >
+  <html>
+    <head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.11/htmx.min.js" integrity="sha512-9KsixJxn00SQfLkrArzXRFi3QyqP4RyIzYgj2Ho4YJSLEOHS00uhDQdc7dv6N8PS5OsYZWKiY0/7DsZRlcv/DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+    </head>
+    <body>
+      <h2>Welcome to HaFo SaFo!</h2><br>
+      Please see your fortune: <a href="/oracle">See Fortune</a>
+      <div id="cameras" class="cam-container">
+	{% for cam in streams %}
+	<img id="cam-{{loop.index0}}" src="/view/{{loop.index0}}"/>
+	{% endfor %}
+      </div>
+    </body>
+    <style>
+      html,body{
+	  text-align: center;
+      }
+      .cam-container {
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: center;
+      }
+      img{
+	  padding: .5rem;
+	  display: flex;
+	  width: 100%;
+      }
+      @media only screen and (hover: none) and (pointer: coarse){
+	  body {
+	      background-color: lightblue;
+	  }
+	  .cam-container {
+	      flex-direction: column;
+	  }
+      }
+    </style>
+    <script>
+      function updateImage() {
+	  for (let index = 0; index < 2; ++index) {
+	      var img = document.getElementById(`cam-${index}`);
+	      img.src = '/view/' + index + '?t=' + new Date().getTime();
+	  }
+      }
+
+      setInterval(updateImage, 500); // Update every 100 milliseconds
+    </script>
+  </html>
+  
